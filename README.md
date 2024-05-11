@@ -1,2 +1,45 @@
-# Ddareungi-Dashboard
-한이음 따릉이 대쉬보드 
+# Ddareungi-kafka-producer repository
+This is a repository for Kafka producer's CI/CD in a real-time Ddareungi dashboard construction project.
+
+<table>
+  <tr>
+    <td align="center">
+    <a href="https://github.com/StatisticsFox">
+      <img src="https://avatars.githubusercontent.com/u/92065443?v=4" width="100px;" alt=""/>
+      <br />
+      <sub>
+        <b>최지혁</b>
+      </sub>
+    </a>
+    <br />
+    </td>
+    <td align="center">
+    <a href="https://github.com/meowwg">
+      <img src="https://avatars.githubusercontent.com/u/133860852?v=4" width="100px;" alt=""/>
+      <br />
+      <sub>
+        <b>박지현</b>
+      </sub>
+      </a>
+      <br />
+    </td>
+    <td align="center">
+    <a href="">
+      <img src="https://avatars.githubusercontent.com/u/24203851?v=4" width="100px;" alt=""/>
+      <br />
+      <sub>
+        <b>문대한</b>
+      </sub>
+      </a>
+      <br />
+    </td>
+    <td align="center">
+    <a href="https://github.com/Hamseungjin">
+      <img src="https://avatars.githubusercontent.com/u/109064686?v=4" width="100px;" alt=""/>
+      <br />
+      <sub>
+        <b>함승진</b>
+      </sub>
+      </a>
+
+
