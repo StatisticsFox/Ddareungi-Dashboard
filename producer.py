@@ -1,14 +1,14 @@
 import os
+import time
+
 import requests
 import json
-import time
-from kafka import KafkaProducer
 from datetime import datetime
-
+from kafka import KafkaProducer
 # Kafka 설정
 topicName = "bike-station-info"
-producer = KafkaProducer(bootstrap_servers=['kafka_node1:9092', 'kafka_node2:9092', 'kafka_node3:9092'],
-                         value_serializer=lambda x: json.dumps(x).encode("utf-8"))
+producer = KafkaProducer(bootstrap_servers=['localhost:9092'],value_serializer=lambda x: json.dumps(x).encode("utf-8"))
+
 
 # 따릉이 API URL
 def request_seoul_api(api_key, start_index, end_index):
