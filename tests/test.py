@@ -1,4 +1,6 @@
 import os
+import sys
+sys.path.append(os.path.abspath('../'))  # 루트 디렉토리를 파이썬 경로에 추가
 from producer import request_seoul_api
 
 # API 키 설정을 위한 환경 변수 설정
