@@ -1,7 +1,6 @@
 certifi==2024.2.2
 charset-normalizer==3.3.2
 idna==3.7
-kafka==1.4.7
 pip==23.2.1
 requests==2.31.0
 setuptools==68.2.0
