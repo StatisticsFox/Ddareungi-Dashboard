@@ -13,6 +13,7 @@ value_serializer=lambda x: json.dumps(x).encode("utf-8"))
 
 # 따릉이 API URL
 def request_seoul_api(api_key, start_index, end_index):
+	"""서울 열린 데이터 광장 API를 호출하여 따릉이 정보를 가져온다."""
 	g_api_host = "http://openapi.seoul.go.kr:8088"
 	g_type = "json"
 	g_service = "bikeList"
