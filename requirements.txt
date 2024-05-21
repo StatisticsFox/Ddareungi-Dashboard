@@ -10,7 +10,6 @@ colorama==0.4.4
 configobj==5.0.6
 confluent-kafka==2.3.0
 constantly==15.1.0
-dbus-python==1.2.18
 distro==1.7.0
 httplib2==0.20.2
 hyperlink==21.0.0
