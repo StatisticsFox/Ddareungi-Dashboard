@@ -6,7 +6,7 @@ sys.path.append(os.path.join(current_dir, '..'))  # 상위 디렉토리를 모�
 # testcode.py에서 request_seoul_api 함수를 가져옵니다.
 from testcode import request_seoul_api
 # API 키 설정을 위한 환경 변수 설정
-test_api_key='734674624d68736a3530444d646d49'
+test_api_key=os.environ['API_KEY']
 
 # 테스트를 위해 호출할 인덱스 설정
 test_start_index = 1
