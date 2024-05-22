@@ -3,7 +3,7 @@ name: CI for Ddareungi Producer- TEST
 on:
   push:
     branches:
-      - main
+      - SEUNGJIN
 
 jobs:
   build:
