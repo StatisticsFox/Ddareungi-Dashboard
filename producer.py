@@ -9,7 +9,6 @@ from kafka import KafkaProducer
 topicName = "bike-station-info"
 producer = KafkaProducer(bootstrap_servers=['localhost:9092'],value_serializer=lambda x: json.dumps(x).encode("utf-8"))
 
-
 # 따릉이 API URL
 def request_seoul_api(api_key, start_index, end_index):
     g_api_host = "http://openapi.seoul.go.kr:8088"
@@ -50,6 +49,5 @@ while True:
 
         # 대기시간
         time.sleep(60)
-
     except Exception as e:
         print(f"Error: {e}")
