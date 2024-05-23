@@ -1,6 +1,9 @@
 # Ddareungi-kafka-producer repository
 This is a repository for Kafka producer's CI/CD in a real-time Ddareungi dashboard construction project.
 
+## Architecture
+![Github Action & codeDeploy CI/CD img](https://onedrive.live.com/embed?resid=9DED56BE8CF81C92%21216&authkey=%21AMsEjwlcUVpGtUk&width=2264&height=1284)
+## Member
 <table>
   <tr>
     <td align="center">
