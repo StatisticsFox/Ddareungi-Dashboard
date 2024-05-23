@@ -19,7 +19,8 @@ jobs:
       # uses: 이미 만들어진 action을 사용할 때 사용
       # actions/checkout@4는 본 레파지토리의 내용을 checkout 하여 runner 서버에 저장함
       uses: actions/checkout@v4
-
+    
+      # 테스트에 대한 설정 필요 승진님과 논의 필요
     - name: archive to tar.gz
       run: tar cvfz ./Ddareungi-kafka-producer.tar.gz *
 
@@ -35,7 +36,8 @@ jobs:
       run: aws s3 cp --region ap-northeast-2 ./Ddareungi-kafka-producer.tar.gz s3://datalake-actions-deploy-kafka-producer/kafka-producer/Ddareungi-kafka-producer.tar.gz
 
     - name: deploy with AWS codeDeploy
+    # 대한님과 해당 부분에 대한 논의 필요
       run: aws deploy create-deployment
-        --application-name datalake-deploy
+        --application-name datalake-deploy 
         --deployment-group-name kafka-deploy
         --s3-location bucket=datalake-actions-deploy-kafka-producer,bundleType=tgz,key=kafka-producer/Ddareungi-kafka-producer.tar.gz
