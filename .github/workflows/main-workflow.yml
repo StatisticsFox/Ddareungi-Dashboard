@@ -19,8 +19,24 @@ jobs:
       # uses: 이미 만들어진 action을 사용할 때 사용
       # actions/checkout@4는 본 레파지토리의 내용을 checkout 하여 runner 서버에 저장함
       uses: actions/checkout@v4
-    
-      # 테스트에 대한 설정 필요 승진님과 논의 필요
+
+    # 테스트에 대한 설정 필요 승진님과 논의 필요
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: |
+        python -m venv venv
+        source venv/bin/activate
+        pip install -r requirements.txt
+
+    - name: Run tests
+      run: |
+        source venv/bin/activate
+        python tests/test.py
+
     - name: archive to tar.gz
       run: tar cvfz ./Ddareungi-kafka-producer.tar.gz *
 
