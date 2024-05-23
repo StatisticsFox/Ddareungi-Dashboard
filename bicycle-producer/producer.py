@@ -6,7 +6,7 @@ from kafka import KafkaProducer
 from datetime import datetime
 
 # environment setting
-# Kafka 설정
+# Kafka 설정 하기
 topicName = "bike-station-info"
 producer = KafkaProducer(bootstrap_servers=['kafka_node1:9092', 'kafka_node2:9092', 'kafka_node3:9092'],
 value_serializer=lambda x: json.dumps(x).encode("utf-8"))
@@ -54,6 +54,7 @@ while True:
 
 			# Kafka에 데이터 전송
 			producer.send(topicName, value=data)
+			producer.flush() # 메시지 전송 완료
 			print(f"Sent data to Kafka: {data}")
 	
 
