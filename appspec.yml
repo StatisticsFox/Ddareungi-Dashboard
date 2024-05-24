@@ -30,11 +30,6 @@ permissions:
     mode: 755      # 파일의 권한(mode)을 지정합니다. 여기서는 rwxr-xr-x로 설정됩니다.
 
 hooks:
-  AfterInstall:
-    - location: config/install_dependencies.sh
-      timeout: 60
-      runas: root
-      
     - location: config/after_install.sh
       timeout: 60
       runas: root
