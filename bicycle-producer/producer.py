@@ -11,9 +11,15 @@ topicName = "bike-station-info"
 producer = KafkaProducer(bootstrap_servers=['kafka_node1:9092', 'kafka_node2:9092', 'kafka_node3:9092'],
 value_serializer=lambda x: json.dumps(x).encode("utf-8"))
 
-# api 불러오는 함수
+# 따릉이 API URL
+def request_seoul_api(api_key, start_index, end_index):
+	"""서울 열린 데이터 광장 API를 호출하여 따릉이 정보를 가져온다."""
+	g_api_host = "http://openapi.seoul.go.kr:8088"
+	g_type = "json"
+	g_service = "bikeList"
+	url = f"{g_api_host}/{api_key}/{g_type}/{g_service}/{start_index}/{end_index}/"
+	return requests.get(url)
 
-  
 
 # API 키 읽기
 with open("api_key.bin", "r", encoding="UTF-8") as api_key_file:
