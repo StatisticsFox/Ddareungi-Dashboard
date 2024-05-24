@@ -11,7 +11,11 @@ topicName = "bike-station-info"
 producer = KafkaProducer(bootstrap_servers=['kafka_node1:9092', 'kafka_node2:9092', 'kafka_node3:9092'],
 value_serializer=lambda x: json.dumps(x).encode("utf-8"))
 
+<<<<<<< HEAD
 # 따릉이 API URL
+=======
+# api 불러오는 함수
+>>>>>>> 15b033809ec8e51a4aa3bfa33e1c4043f9e7c5f3
 def request_seoul_api(api_key, start_index, end_index):
 	"""서울 열린 데이터 광장 API를 호출하여 따릉이 정보를 가져온다."""
 	g_api_host = "http://openapi.seoul.go.kr:8088"
@@ -19,13 +23,15 @@ def request_seoul_api(api_key, start_index, end_index):
 	g_service = "bikeList"
 	url = f"{g_api_host}/{api_key}/{g_type}/{g_service}/{start_index}/{end_index}/"
 	return requests.get(url)
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> 15b033809ec8e51a4aa3bfa33e1c4043f9e7c5f3
 
 # API 키 읽기
 with open("api_key.bin", "r", encoding="UTF-8") as api_key_file:
 	api_key = api_key_file.read().strip()
-
-  
 
 # 무한 루프를 돌면서 실시간으로 데이터를 가져와 Kafka에 전송
 while True:
@@ -37,7 +43,7 @@ while True:
 			response = request_seoul_api(api_key, start_index, end_index)
 			if response.status_code == 200:
 				bike_stations.extend(response.json()["rentBikeStatus"]["row"])
-	
+
 		for station in bike_stations:
 			# 필요한 정보 추출
 			data = {

@@ -27,7 +27,7 @@ This is a repository for Kafka producer's CI/CD in a real-time Ddareungi dashboa
       <br />
     </td>
     <td align="center">
-    <a href="">
+    <a href="https://github.com/moondh">
       <img src="https://avatars.githubusercontent.com/u/24203851?v=4" width="100px;" alt=""/>
       <br />
       <sub>
