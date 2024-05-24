@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 경로 설정
-PROJECT_DIR=/src/kafka-producer
+PROJECT_DIR=./
 VENV_DIR=$PROJECT_DIR/venv
 
 # 가상 환경 디렉토리가 존재하지 않으면 생성
