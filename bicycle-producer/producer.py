@@ -25,8 +25,6 @@ def request_seoul_api(api_key, start_index, end_index):
 with open("api_key.bin", "r", encoding="UTF-8") as api_key_file:
 	api_key = api_key_file.read().strip()
 
-  
-
 # 무한 루프를 돌면서 실시간으로 데이터를 가져와 Kafka에 전송
 while True:
 	try:
@@ -37,7 +35,7 @@ while True:
 			response = request_seoul_api(api_key, start_index, end_index)
 			if response.status_code == 200:
 				bike_stations.extend(response.json()["rentBikeStatus"]["row"])
-	
+
 		for station in bike_stations:
 			# 필요한 정보 추출
 			data = {
