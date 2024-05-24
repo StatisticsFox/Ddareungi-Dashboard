@@ -4,7 +4,7 @@ import os
 current_dir = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(os.path.join(current_dir, '..'))  # 상위 디렉토리를 모듈 검색 경로에 추가합니다.
 # testcode.py에서 request_seoul_api 함수를 가져옵니다.
-from testcode import request_seoul_api
+from seoul_bike_api import request_seoul_api
 # API 키 설정을 위한 환경 변수 설정
 test_api_key=os.environ['API_KEY']
 
