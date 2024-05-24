@@ -1,5 +1,9 @@
 import sys
 import os
+from dotenv import load_dotenv
+import os
+
+load_dotenv() 
 # 현재 스크립트의 경로를 가져와서 추가합니다.
 current_dir = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(os.path.join(current_dir, '..'))  # 상위 디렉토리를 모듈 검색 경로에 추가합니다.

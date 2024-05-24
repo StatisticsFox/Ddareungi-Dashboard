@@ -29,13 +29,8 @@ permissions:
     group: kafka   # 파일의 그룹(group)을 지정합니다.
     mode: 755      # 파일의 권한(mode)을 지정합니다. 여기서는 rwxr-xr-x로 설정됩니다.
 
-# hooks를 통해 배포 전후에 수행할 동작을 정의할 수 있습니다.
-# 예를 들어, before_install, after_install.sh, application_start 등의 후크를 사용할 수 있습니다.
-# 현재는 후크(hooks)에 대한 정의가 없습니다.
-
 hooks:
-  # 배포 후 수행할 작업을 정의합니다.
-  after_install:
-    - location: Ddareungi_config/after_install.sh
-      timeout: 300  # Timeout in seconds
-      runas: root  # 스크립트를 실행할 사용자 지정
+  AfterInstall:
+    - location: config/after_install.sh
+      timeout: 60
+      runas: root
