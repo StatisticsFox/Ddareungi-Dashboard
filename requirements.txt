@@ -6,4 +6,4 @@ pip==23.0.1
 PyYAML==6.0.1
 requests==2.31.0
 setuptools==65.5.0
-urllib3==2.2.1ㅌ
+urllib3==2.2.1

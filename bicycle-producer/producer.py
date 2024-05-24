@@ -20,7 +20,6 @@ def request_seoul_api(api_key, start_index, end_index):
 	url = f"{g_api_host}/{api_key}/{g_type}/{g_service}/{start_index}/{end_index}/"
 	return requests.get(url)
 
-  
 
 # API 키 읽기
 with open("api_key.bin", "r", encoding="UTF-8") as api_key_file:
