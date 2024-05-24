@@ -1,1 +1,0 @@
-python3 /src/kafka-producer/Ddareungi_config/deploy.py
