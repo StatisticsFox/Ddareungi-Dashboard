@@ -13,7 +13,6 @@ value_serializer=lambda x: json.dumps(x).encode("utf-8"))
 
 # api 불러오는 함수
 
-  
 
 # API 키 읽기
 with open("api_key.bin", "r", encoding="UTF-8") as api_key_file:
