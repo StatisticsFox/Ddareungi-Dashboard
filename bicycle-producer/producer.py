@@ -1,70 +1,101 @@
-# Core Pkgs
-import requests
 import json
+import requests
+from confluent_kafka import Producer
 import time
-from kafka import KafkaProducer
-from datetime import datetime
+import os
 
-# environment setting
-# Kafka 설정 하기
-topicName = "bike-station-info"
-producer = KafkaProducer(bootstrap_servers=['kafka_node1:9092', 'kafka_node2:9092', 'kafka_node3:9092'],
-value_serializer=lambda x: json.dumps(x).encode("utf-8"))
+# Kafka 서버 및 토픽 설정
+# Kafka 브로커:포트
+servers = ['kafka_node1:9092', 'kafka_node2:9092', 'kafka_node3:9092'] 
+topic_name = 'bike-station-info' # 사용할 Kafka 토픽 이름
 
-<<<<<<< HEAD
-# 따릉이 API URL
-=======
-# api 불러오는 함수
->>>>>>> 15b033809ec8e51a4aa3bfa33e1c4043f9e7c5f3
-def request_seoul_api(api_key, start_index, end_index):
-	"""서울 열린 데이터 광장 API를 호출하여 따릉이 정보를 가져온다."""
-	g_api_host = "http://openapi.seoul.go.kr:8088"
-	g_type = "json"
-	g_service = "bikeList"
-	url = f"{g_api_host}/{api_key}/{g_type}/{g_service}/{start_index}/{end_index}/"
-	return requests.get(url)
-<<<<<<< HEAD
+# Kafka Producer 설정
+conf = {'bootstrap.servers': ','.join(servers)}
+producer = Producer(**conf)
 
-=======
-  
->>>>>>> 15b033809ec8e51a4aa3bfa33e1c4043f9e7c5f3
+# 환경 변수에서 API 키 불러오기
+seoul_api_key = os.getenv('API_KEY')
 
-# API 키 읽기
-with open("api_key.bin", "r", encoding="UTF-8") as api_key_file:
-	api_key = api_key_file.read().strip()
+def fetch_data(start_idx, end_idx):
+    """
+    주어진 시작 및 종료 인덱스 범위에서 서울시 자전거 대여소 데이터를 가져옵니다.
+    
+    Args:
+        start_idx (int): 시작 인덱스.
+        end_idx (int): 종료 인덱스.
+    
+    Returns:
+        dict: JSON 형식의 자전거 대여소 데이터.
+    """
+    api_server = 'http://openapi.seoul.go.kr:8088/{}/{}/json/bikeList/{}/{}'.format(seoul_api_key, start_idx, end_idx)
+    response = requests.get(api_server)
+    data = json.loads(response.content)
+    return data
 
-# 무한 루프를 돌면서 실시간으로 데이터를 가져와 Kafka에 전송
-while True:
-	try:
-	# 따릉이 API 호출
-		bike_stations = [] # 초기화
-		for start_index in range(1, 2001, 1000): # 1부터 2000까지, 1000개 단위로 요청
-			end_index = start_index + 999
-			response = request_seoul_api(api_key, start_index, end_index)
-			if response.status_code == 200:
-				bike_stations.extend(response.json()["rentBikeStatus"]["row"])
+def delivery_report(err, msg):
+    """
+    메시지 전송 후 호출되는 콜백 함수. 메시지 전송 성공 여부를 출력합니다.
+    
+    Args:
+        err (KafkaError): 메시지 전송 오류가 있는 경우.
+        msg (Message): 전송된 메시지.
+    """
+    if err is not None:
+        print(f"Message delivery failed: {err}")
+    else:
+        print(f"Message delivered to {msg.topic()} [{msg.partition()}]")
 
-		for station in bike_stations:
-			# 필요한 정보 추출
-			data = {
-				"rackTotCnt": station["rackTotCnt"],
-				"stationName": station["stationName"],
-				"parkingBikeTotCnt": station["parkingBikeTotCnt"],
-				"shared": station["shared"],
-				"stationLatitude": station["stationLatitude"],
-				"stationLongitude": station["stationLongitude"],
-				"stationId": station["stationId"],
-				"timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-			}
+def send_data():
+    """
+    서울시 자전거 대여소 데이터를 페이지별로 가져와서 Kafka 토픽에 전송합니다.
+    """
+    start_idx = 1
+    end_idx = 1000
+    while start_idx <= 2000:
+        data = fetch_data(start_idx, end_idx)
+        for station in data['rentBikeStatus']['row']:
+            # 필요한 데이터 추출
+            rack_tot_cnt = station['rackTotCnt']
+            station_name = station['stationName']
+            parking_bike_tot_cnt = station['parkingBikeTotCnt']
+            shared = station['shared']
+            station_latitude = station['stationLatitude']
+            station_longitude = station['stationLongitude']
+            station_id = station['stationId']
 
-			# Kafka에 데이터 전송
-			producer.send(topicName, value=data)
-			producer.flush() # 메시지 전송 완료
-			print(f"Sent data to Kafka: {data}")
-	
+            # 데이터를 JSON 형식으로 변환
+            message = {
+                'rack_tot_cnt': rack_tot_cnt,
+                'station_name': station_name,
+                'parking_bike_tot_cnt': parking_bike_tot_cnt,
+                'shared': shared,
+                'station_latitude': station_latitude,
+                'station_longitude': station_longitude,
+                'station_id': station_id
+            }
+            json_data = json.dumps(message)
 
-		# 대기시간
-		time.sleep(60)
-	
-	except Exception as e:
-		print(f"Error: {e}")
+            # Kafka에 메시지 전송
+            producer.produce(topic=topic_name, 
+                             key=str(station_id), 
+                             value=json_data.encode('utf-8'), 
+                             callback=delivery_report)
+            producer.poll(0) # 이벤트 처리
+
+            # 전송한 데이터를 출력
+            print(f"Sent data to Kafka: {message}")
+
+        start_idx += 1000
+        end_idx += 1000
+        time.sleep(30) # 30초마다 실행
+
+    producer.flush() # 모든 메시지 전송 완료
+
+def main():
+    """
+    메인 함수로, 자전거 대여소 데이터를 Kafka로 전송하는 작업을 시작합니다.
+    """
+    send_data()
+
+if __name__ == "__main__":
+    main()
