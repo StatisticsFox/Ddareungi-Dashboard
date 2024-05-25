@@ -11,9 +11,12 @@ os: linux
 # source가 디렉토리일 경우, 디렉토리 내부의 파일 및 서브 디렉토리들이 복사됩니다 (지정한 디렉토리 자체는 복사되지 않음).
 # source가 파일일 경우, 해당 파일이 복사됩니다.
 files:
-  - source: /
+  - source: /bicycle-producer
     destination: /src/kafka-producer
-
+  - source: /config
+    destination: /src/kafka-producer
+  - source: /appspec.yml
+    destination: /src/kafka-producer
 # destination 경로에 동일한 파일이 이미 존재할 경우의 행동을 지정합니다.
 # 다음 세 가지 옵션 중 하나를 사용할 수 있습니다:
 # - DISALLOW: 동일한 파일이 존재할 경우 복사를 허용하지 않습니다.
