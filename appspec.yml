@@ -32,7 +32,7 @@ permissions:
 
 hooks:
   BeforeInstall:
-    - location: scripts/setup_permissions.sh
+    - location: src/kakfa-producer/scripts/setup_permissions.sh
       timeout: 60
       runas: root  
   AfterInstall:
