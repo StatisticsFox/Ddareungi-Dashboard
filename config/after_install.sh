@@ -1,1 +1,1 @@
-python3 /src/kafka-producer/config/deploy.py
+python3 home/ubuntu/kafka-producer/config/deploy.py
