@@ -31,11 +31,11 @@ permissions:
     mode: 644
 
 hooks:
-  AfterInstall:
-    - location: src/kafka-producer/config/after_install.sh
-      timeout: 60
-      runas: root
   BeforeInstall:
     - location: scripts/setup_permissions.sh
       timeout: 60
       runas: root  
+  AfterInstall:
+    - location: src/kafka-producer/config/after_install.sh
+      timeout: 60
+      runas: root
