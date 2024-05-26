@@ -1,20 +1,24 @@
 import sys
 import os
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 import os
 
-load_dotenv() 
+# load_dotenv() 
 # 현재 스크립트의 경로를 가져와서 추가합니다.
 current_dir = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(os.path.join(current_dir, '..'))  # 상위 디렉토리를 모듈 검색 경로에 추가합니다.
 # testcode.py에서 request_seoul_api 함수를 가져옵니다.
 from seoul_bike_api import request_seoul_api
 # API 키 설정을 위한 환경 변수 설정
-test_api_key=os.environ['API_KEY']
+# test_api_key=os.environ['API_KEY']
 
 # 테스트를 위해 호출할 인덱스 설정
 test_start_index = 1
 test_end_index = 10  # 테스트를 위해 작은 범위로 설정
+
+with open("api_key.bin", "r", encoding="UTF-8") as api_key_file:
+	test_api_key = api_key_file.read().strip()
+    
 try:
     # 따릉이 API 호출 및 테스트
     response = request_seoul_api(test_api_key, test_start_index, test_end_index)
