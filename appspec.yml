@@ -30,6 +30,6 @@ permissions:
 
 hooks:
   AfterInstall:
-    - location: src/kafka-producer/config/after_install.sh
+    - location: ./src/kafka-producer/config/after_install.sh
       timeout: 60
       runas: root
