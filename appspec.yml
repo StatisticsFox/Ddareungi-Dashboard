@@ -32,6 +32,6 @@ permissions:
 
 hooks:
   AfterInstall:
-    - location: /src/kafka-producer/config/after_install.sh
+    - location: after_install.sh
       timeout: 60
       runas: ubuntu
