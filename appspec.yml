@@ -33,4 +33,3 @@ hooks:
   ApplicationStart:
     - location: config/after_install.sh
       timeout: 60
-      runas: ubuntu
