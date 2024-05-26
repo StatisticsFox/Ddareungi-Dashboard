@@ -32,6 +32,6 @@ permissions:
 
 hooks:
   ApplicationStart:
-    - location: after_install.sh
+    - location: config/after_install.sh
       timeout: 60
       runas: ubuntu
