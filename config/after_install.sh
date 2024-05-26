@@ -1,2 +1,2 @@
-sudo python3 config/deploy.py
+sudo python3 ./src/kafka-producer/config/deploy.py
 # python3 ./src/kafka-producer/config/deploy.py
