@@ -1,6 +1,6 @@
 import json
 import requests
-from confluent_kafka import Producer
+from kafka import KafkaProducer
 import time
 import os
 
