@@ -24,16 +24,11 @@ file_exists_behavior: OVERWRITE
 # pattern과 except 키워드를 통해 대상 파일을 구체적으로 지정할 수 있습니다.
 permissions:
   - object: /src/kafka-producer
-    # pattern: "**"
+    pattern: "*.sh"
     owner: ubuntu    # 파일의 소유자(owner)를 지정합니다.
     group: ubuntu   # 파일의 그룹(group)을 지정합니다.
     mode: 755      # 파일의 권한(mode)을 지정합니다. 여기서는 rwxr-xr-x로 설정됩니다.
 
-  - object: /src/kafka-producer/config
-    pattern: "*.sh"    # 이 패턴에 맞는 파일들에 대해 권한을 설정합니다.
-    owner: ubuntu      # 파일의 소유자(owner)를 지정합니다.
-    group: ubuntu      # 파일의 그룹(group)을 지정합니다.
-    mode: 755   
 
 hooks:
   AfterInstall:
