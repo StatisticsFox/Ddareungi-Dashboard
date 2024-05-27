@@ -16,8 +16,8 @@ from seoul_bike_api import request_seoul_api
 test_start_index = 1
 test_end_index = 10  # 테스트를 위해 작은 범위로 설정
 
-with open("api_key.bin", "r", encoding="UTF-8") as api_key_file:
-	test_api_key = api_key_file.read().strip()
+with open("/home/ubuntu/kafka-producer/tests/api_key.bin", "r", encoding="UTF-8") as api_key_file:
+    test_api_key = api_key_file.read().strip()
     
 try:
     # 따릉이 API 호출 및 테스트
