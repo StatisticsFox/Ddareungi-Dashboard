@@ -9,8 +9,6 @@ import os
 # Kafka 브로커:포트
 servers = ['kafka_node1:9092', 'kafka_node2:9092', 'kafka_node3:9092'] 
 topic_name = 'bike-station-info' # 사용할 Kafka 토픽 이름
-# producer = KafkaProducer(bootstrap_servers=['kafka_node1:9092', 'kafka_node2:9092', 'kafka_node3:9092'] ,
-# value_serializer=lambda x: json.dumps(x).encode("utf-8"))
 
 # Kafka Producer 설정
 conf = {'bootstrap.servers': ','.join(servers)}
@@ -35,14 +33,6 @@ def request_seoul_api(seoul_api_key, start_index, end_index):
     response = requests.get(api_server)
     data = json.loads(response.content)
     return data
-    
-# def request_seoul_api(seoul_api_key, start_index, end_index):
-# 	g_api_host = "http://openapi.seoul.go.kr:8088"
-# 	g_type = "json"
-# 	g_service = "bikeList"
-# 	url = f"{g_api_host}/{seoul_api_key}/{g_type}/{g_service}/{start_index}/{end_index}/"
-# 	response = requests.get(url)
-# 	return response
     
 def delivery_report(err, msg):
     """
@@ -85,7 +75,7 @@ def send_data():
                 'station_longitude': station_longitude,
                 'station_id': station_id
             }
-            json_data = json.dumps(message)
+            json_data = json.dumps(message, ensure_ascii=False)
 
             # Kafka에 메시지 전송
             producer.produce(topic=topic_name, 
