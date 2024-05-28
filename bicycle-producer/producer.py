@@ -1,6 +1,5 @@
 import json
 import requests
-from kafka import KafkaProducer
 from confluent_kafka import Producer
 import time
 import os
@@ -99,3 +98,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
