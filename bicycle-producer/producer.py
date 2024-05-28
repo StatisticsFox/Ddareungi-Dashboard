@@ -14,7 +14,8 @@ conf = {'bootstrap.servers': ','.join(servers)}
 producer = Producer(**conf)
 
 # 환경 변수에서 API 키 불러오기
-seoul_api_key = os.getenv('API_KEY')
+with open("/home/ubuntu/api_key.bin", "r", encoding="UTF-8") as api_key_file:
+    seoul_api_key = api_key_file.read().strip()
 
 def fetch_data(start_idx, end_idx):
     """
