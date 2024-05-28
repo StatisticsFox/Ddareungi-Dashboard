@@ -64,7 +64,7 @@ def send_data():
     end_index = 1000
     while start_index <= 2000:
         data = request_seoul_api(seoul_api_key, start_index, end_index)
-        for station in data['rentBikeStatus']['row']:
+        for station in data.json()['rentBikeStatus']['row']:
             # 필요한 데이터 추출
             rack_tot_cnt = station['rackTotCnt']
             station_name = station['stationName']
