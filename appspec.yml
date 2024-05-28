@@ -30,6 +30,9 @@ permissions:
 
 
 hooks:
+  ApplicationStop:
+    - location: config/stop_producer.sh
+    - timeout: 60
   ApplicationStart:
     - location: config/after_install.sh
       timeout: 60
