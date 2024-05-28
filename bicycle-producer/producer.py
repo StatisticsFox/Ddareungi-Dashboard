@@ -41,8 +41,7 @@ def request_seoul_api(seoul_api_key, start_index, end_index):
 	g_service = "bikeList"
 	url = f"{g_api_host}/{seoul_api_key}/{g_type}/{g_service}/{start_index}/{end_index}/"
 	response = requests.get(url)
-    data = json.loads(response.content)
-    return data
+	return response
     
 def delivery_report(err, msg):
     """
