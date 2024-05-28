@@ -1,47 +1,48 @@
 import json
 import requests
 from kafka import KafkaProducer
+from confluent_kafka import Producer
 import time
 import os
 
 # Kafka 서버 및 토픽 설정
 # Kafka 브로커:포트
-# servers = ['kafka_node1:9092', 'kafka_node2:9092', 'kafka_node3:9092'] 
+servers = ['kafka_node1:9092', 'kafka_node2:9092', 'kafka_node3:9092'] 
 topic_name = 'bike-station-info' # 사용할 Kafka 토픽 이름
-producer = KafkaProducer(bootstrap_servers=['kafka_node1:9092', 'kafka_node2:9092', 'kafka_node3:9092'] ,
-value_serializer=lambda x: json.dumps(x).encode("utf-8"))
+# producer = KafkaProducer(bootstrap_servers=['kafka_node1:9092', 'kafka_node2:9092', 'kafka_node3:9092'] ,
+# value_serializer=lambda x: json.dumps(x).encode("utf-8"))
 
 # Kafka Producer 설정
-# conf = {'bootstrap.servers': ','.join(servers)}
-# producer = Producer(**conf)
+conf = {'bootstrap.servers': ','.join(servers)}
+producer = Producer(**conf)
 
 # 환경 변수에서 API 키 불러오기
 with open("/home/ubuntu/api_key.bin", "r", encoding="UTF-8") as api_key_file:
     seoul_api_key = api_key_file.read().strip()
 
-# def fetch_data(start_idx, end_idx):
-#     """
-#     주어진 시작 및 종료 인덱스 범위에서 서울시 자전거 대여소 데이터를 가져옵니다.
+def fetch_data(start_index, end_index):
+    """
+    주어진 시작 및 종료 인덱스 범위에서 서울시 자전거 대여소 데이터를 가져옵니다.
     
-#     Args:
-#         start_idx (int): 시작 인덱스.
-#         end_idx (int): 종료 인덱스.
+    Args:
+        start_idx (int): 시작 인덱스.
+        end_idx (int): 종료 인덱스.
     
-#     Returns:
-#         dict: JSON 형식의 자전거 대여소 데이터.
-#     """
-#     api_server = 'http://openapi.seoul.go.kr:8088/{}/{}/json/bikeList/{}/{}'.format(seoul_api_key, start_idx, end_idx)
-#     response = requests.get(api_server)
-#     data = json.loads(response.content)
-#     return data
+    Returns:
+        dict: JSON 형식의 자전거 대여소 데이터.
+    """
+    api_server = f'http://openapi.seoul.go.kr:8088/{seoul_api_key}/json/bikeList/{start_index}/{end_index}' # .format(seoul_api_key, start_idx, end_idx)
+    response = requests.get(api_server)
+    data = json.loads(response.content)
+    return data
     
-def request_seoul_api(seoul_api_key, start_index, end_index):
-	g_api_host = "http://openapi.seoul.go.kr:8088"
-	g_type = "json"
-	g_service = "bikeList"
-	url = f"{g_api_host}/{seoul_api_key}/{g_type}/{g_service}/{start_index}/{end_index}/"
-	response = requests.get(url)
-	return response
+# def request_seoul_api(seoul_api_key, start_index, end_index):
+# 	g_api_host = "http://openapi.seoul.go.kr:8088"
+# 	g_type = "json"
+# 	g_service = "bikeList"
+# 	url = f"{g_api_host}/{seoul_api_key}/{g_type}/{g_service}/{start_index}/{end_index}/"
+# 	response = requests.get(url)
+# 	return response
     
 def delivery_report(err, msg):
     """
@@ -64,7 +65,7 @@ def send_data():
     end_index = 1000
     while start_index <= 2000:
         data = request_seoul_api(seoul_api_key, start_index, end_index)
-        for station in data.json()['rentBikeStatus']['row']:
+        for station in data['rentBikeStatus']['row']:
             # 필요한 데이터 추출
             rack_tot_cnt = station['rackTotCnt']
             station_name = station['stationName']
