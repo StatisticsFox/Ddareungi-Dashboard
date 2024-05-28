@@ -50,12 +50,32 @@ def send_data():
     """
     서울시 자전거 대여소 데이터를 페이지별로 가져와서 Kafka 토픽에 전송합니다.
     """
+<<<<<<< HEAD
     while True:
         start_index = 1
         end_index = 1000
         while start_index <= 2000:
             data = request_seoul_api(seoul_api_key, start_index, end_index)
             for station in data['rentBikeStatus']['row']:
+=======
+    start_index = 1
+    end_index = 1000
+    message_count = 0
+    while True:
+        data = request_seoul_api(seoul_api_key, start_index, end_index)
+        if not data['rentBikeStatus']['row']:
+            break
+            
+        for station in data['rentBikeStatus']['row']:
+            # 필요한 데이터 추출
+            rack_tot_cnt = station['rackTotCnt']
+            station_name = station['stationName']
+            parking_bike_tot_cnt = station['parkingBikeTotCnt']
+            shared = station['shared']
+            station_latitude = station['stationLatitude']
+            station_longitude = station['stationLongitude']
+            station_id = station['stationId']
+>>>>>>> a053dd470fd99cc00990c3573bf78da9debdc87a
 
                 # 필요한 데이터 추출
                 rack_tot_cnt = station['rackTotCnt']
@@ -77,7 +97,22 @@ def send_data():
                     'station_id': station_id
                 }
 
+<<<<<<< HEAD
                 json_data = json.dumps(message, ensure_ascii=False)
+=======
+            message_count += 1
+            if message_count % 1000 == 0:
+                print(f"{message_count} messages have been sent to Kafka.")
+
+            # 전송한 데이터를 출력 (필요에 따라 주석 처리 가능)
+            # print(f"Sent data to Kafka: {message}")
+
+        start_index += 1000
+        end_index += 1000
+        time.sleep(30) # 30초마다 실행
+
+    producer.flush() # 모든 메시지 전송 완료
+>>>>>>> a053dd470fd99cc00990c3573bf78da9debdc87a
 
                 # Kafka에 메시지 전송
                 producer.produce(topic=topic_name, 
