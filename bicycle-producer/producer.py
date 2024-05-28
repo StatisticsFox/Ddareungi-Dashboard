@@ -20,7 +20,7 @@ producer = Producer(**conf)
 with open("/home/ubuntu/api_key.bin", "r", encoding="UTF-8") as api_key_file:
     seoul_api_key = api_key_file.read().strip()
 
-def fetch_data(start_index, end_index):
+def request_seoul_api(start_index, end_index):
     """
     주어진 시작 및 종료 인덱스 범위에서 서울시 자전거 대여소 데이터를 가져옵니다.
     
