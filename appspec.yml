@@ -31,5 +31,5 @@ permissions:
 
 hooks:
   ApplicationStart:
-    - location: config/after_install.sh
+    - location: config/applicationstart.sh
       timeout: 60
