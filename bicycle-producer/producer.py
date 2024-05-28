@@ -29,11 +29,7 @@ def request_seoul_api(seoul_api_key, start_index, end_index):
     Returns:
         dict: JSON 형식의 자전거 대여소 데이터.
     """
-<<<<<<< HEAD
-    api_server = f'http://openapi.seoul.go.kr:8088/{seoul_api_key}/json/bikeList/{start_index}/{end_index}'
-=======
     api_server = f'http://openapi.seoul.go.kr:8088/{seoul_api_key}/json/bikeList/{start_index}/{end_index}' # .format(seoul_api_key, start_idx, end_idx)
->>>>>>> 759229433bbe3d068e04a8d4d04c5e546bd30663
     response = requests.get(api_server)
     data = json.loads(response.content)
     return data
@@ -57,16 +53,12 @@ def send_data():
     """
     start_index = 1
     end_index = 1000
-<<<<<<< HEAD
     message_count = 0
     while True:
         data = request_seoul_api(seoul_api_key, start_index, end_index)
         if not data['rentBikeStatus']['row']:
             break
-=======
-    while start_index <= 2000:
-        data = request_seoul_api(seoul_api_key, start_index, end_index)
->>>>>>> 759229433bbe3d068e04a8d4d04c5e546bd30663
+            
         for station in data['rentBikeStatus']['row']:
             # 필요한 데이터 추출
             rack_tot_cnt = station['rackTotCnt']
@@ -100,12 +92,9 @@ def send_data():
             if message_count % 1000 == 0:
                 print(f"{message_count} messages have been sent to Kafka.")
 
-<<<<<<< HEAD
             # 전송한 데이터를 출력 (필요에 따라 주석 처리 가능)
             # print(f"Sent data to Kafka: {message}")
 
-=======
->>>>>>> 759229433bbe3d068e04a8d4d04c5e546bd30663
         start_index += 1000
         end_index += 1000
         time.sleep(30) # 30초마다 실행
