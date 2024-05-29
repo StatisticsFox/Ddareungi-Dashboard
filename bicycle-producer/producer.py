@@ -23,16 +23,15 @@ def request_seoul_api(seoul_api_key, start_index, end_index):
     주어진 시작 및 종료 인덱스 범위에서 서울시 자전거 대여소 데이터를 가져옵니다.
     
     Args:
-        start_idx (int): 시작 인덱스.
-        end_idx (int): 종료 인덱스.
+        start_index (int): 시작 인덱스.
+        end_index (int): 종료 인덱스.
     
     Returns:
-        dict: JSON 형식의 자전거 대여소 데이터.
+        response: requests의 응답 객체.
     """
-    api_server = f'http://openapi.seoul.go.kr:8088/{seoul_api_key}/json/bikeList/{start_index}/{end_index}' # .format(seoul_api_key, start_idx, end_idx)
+    api_server = f'http://openapi.seoul.go.kr:8088/{seoul_api_key}/json/bikeList/{start_index}/{end_index}'
     response = requests.get(api_server)
-    data = json.loads(response.content)
-    return data
+    return response
 
 def delivery_report(err, msg):
     """
@@ -48,15 +47,14 @@ def delivery_report(err, msg):
     else:
         print(f"Message delivered to {msg.topic()} [{msg.partition()}]")
 
-
 def send_data():
     """
     서울시 자전거 대여소 데이터를 페이지별로 가져와서 Kafka 토픽에 전송합니다.
     """
-# 무한 루프를 돌면서 실시간으로 데이터를 가져와 kafka에 전송
+    # 무한 루프를 돌면서 실시간으로 데이터를 가져와 kafka에 전송
     while True:
         try:
-        # 따릉이 API 호출
+            # 따릉이 API 호출
             bike_stations=[] # 따릉이 대여소 정보를 저장할 리스트
             for start_index in range(1, 2001, 1000): # 1부터 2000까지 1000개씩 가져옴
                 end_index = start_index + 999
@@ -81,10 +79,10 @@ def send_data():
 
                 #json_data = json.dumps(message, ensure_ascii=False)
                 # Kafka에 메시지 전송
-                producer.produce(topic = topicName, 
-                                key = str(station_id), 
-                                value = data, 
-                                callback = delivery_report) 
+                producer.produce(topic=topicName, 
+                                key=str(station_id), 
+                                value=json.dumps(data, ensure_ascii=False), 
+                                callback=delivery_report) 
                 producer.poll(1) # 메시지 전송을 위해 poll() 메서드 호출
 
                 # 전송한 데이터를 출력
@@ -94,7 +92,7 @@ def send_data():
             time.sleep(30) # 30초마다 실행
 
         except Exception as e:
-	        print(f"Error: {e}")
+            print(f"Error: {e}")
 
 def main():
     """
@@ -104,4 +102,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
