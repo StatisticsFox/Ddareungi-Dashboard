@@ -87,7 +87,8 @@ def send_data():
 
                 # 전송한 데이터를 출력
                 print(f"Sent data to Kafka: {data}")
-    
+            
+            # producer.flush() # Kafka Producer 종료
             # 30초 대기
             time.sleep(30) # 30초마다 실행
 
