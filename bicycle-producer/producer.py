@@ -80,7 +80,6 @@ def send_data():
                 station_id = station['stationId']
 
                 #json_data = json.dumps(message, ensure_ascii=False)
-
                 # Kafka에 메시지 전송
                 producer.produce(topic = topicName, 
                                 key = str(station_id), 
