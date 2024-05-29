@@ -30,6 +30,10 @@ permissions:
 
 
 hooks:
+  ApplicationStop:
+    - location: config/applicationstop.sh
+      timeout: 60
+  
   ApplicationStart:
     - location: config/applicationstart.sh
       timeout: 60
