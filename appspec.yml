@@ -2,7 +2,7 @@
 # version은 필수적으로 명시해야 하며, 현재는 0.0만 지원됩니다.
 version: 0.0
 
-os: ubuntu
+os: linux
 
 # 파일을 복사할 경로를 지정합니다.
 # files 항목에서는 source와 destination을 여러 개 지정할 수 있으며,
