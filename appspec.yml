@@ -12,7 +12,9 @@ os: linux
 files:
   - source: /
     destination: /home/ubuntu/kafka-producer
+    
 # destination 경로에 동일한 파일이 이미 존재할 경우의 행동을 지정합니다.
+
 # 다음 세 가지 옵션 중 하나를 사용할 수 있습니다:
 # - DISALLOW: 동일한 파일이 존재할 경우 복사를 허용하지 않습니다.
 # - OVERWRITE: 동일한 파일이 존재할 경우 기존 파일을 덮어씁니다.
