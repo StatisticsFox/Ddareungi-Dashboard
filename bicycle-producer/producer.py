@@ -33,6 +33,9 @@ def request_seoul_api(seoul_api_key, start_index, end_index):
     response = requests.get(api_server)
     return response
 
+messages_sent = 0
+messages_delivered = 0
+
 def delivery_report(err, msg):
     """
     메시지 전송 후 호출되는 콜백 함수. 메시지 전송 성공 여부를 출력합니다.
@@ -41,16 +44,21 @@ def delivery_report(err, msg):
         err (KafkaError): 메시지 전송 오류가 있는 경우.
         msg (Message): 전송된 메시지.
     """
+    global messages_delivered
 
     if err is not None:
         print(f"Message delivery failed: {err}")
     else:
-        print(f"Message delivered to {msg.topic()} [{msg.partition()}]")
+        messages_delivered += 1
+        if messages_delivered == messages_sent:
+            print(f"All {messages_sent} messages delivered successfully")
 
 def send_data():
     """
     서울시 자전거 대여소 데이터를 페이지별로 가져와서 Kafka 토픽에 전송합니다.
     """
+    global messages_sent, messages_delivered
+
     # 무한 루프를 돌면서 실시간으로 데이터를 가져와 kafka에 전송
     while True:
         try:
@@ -61,6 +69,9 @@ def send_data():
                 response = request_seoul_api(seoul_api_key, start_index, end_index)
                 if response.status_code == 200:
                     bike_stations.extend(response.json()['rentBikeStatus']['row']) # API 호출 결과를 리스트에 추가
+
+            messages_sent = 0
+            messages_delivered = 0
 
             for station in bike_stations:
                 # 필요한 데이터 추출
@@ -77,18 +88,20 @@ def send_data():
 
                 station_id = station['stationId']
 
-                #json_data = json.dumps(message, ensure_ascii=False)
                 # Kafka에 메시지 전송
                 producer.produce(topic=topicName,
                                 key=str(station_id),
                                 value=json.dumps(data, ensure_ascii=False),
                                 callback=delivery_report)
-                producer.poll(1) # 메시지 전송을 위해 poll() 메서드 호출
-
+                producer.poll(0) # 메시지 전송을 위해 poll() 메서드 호출
+                
                 # 전송한 데이터를 출력
                 print(f"Sent data to Kafka: {data}")
+                
+                messages_sent += 1
 
-            producer.flush() # Kafka Producer 종료
+            producer.flush() # 모든 메시지 전송 대기
+
             # 30초 대기
             time.sleep(30) # 30초마다 실행
 
