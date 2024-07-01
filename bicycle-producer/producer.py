@@ -93,7 +93,7 @@ def send_data():
                                 key=str(station_id),
                                 value=json.dumps(data, ensure_ascii=False),
                                 callback=delivery_report)
-                producer.poll(0) # 메시지 전송을 위해 poll() 메서드 호출
+                producer.poll(1) # 메시지 전송을 위해 poll() 메서드 호출
 
                 messages_sent += 1
 
